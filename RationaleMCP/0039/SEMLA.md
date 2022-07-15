@@ -21,12 +21,12 @@ different platforms.
 
 ## Library Container
 
-The container is a zip file, with a .mol file extension. It contains one
-top-level directory for each contained top-level package (“library”),
-named and structured according to section 13.2.2 of the Modelica
-Language Specification version 3.2r2. In addition, each such top-level
-directory should contain a directory “.library”. Each “.library”
-directory should contain:
+The container is a zip file, with a .mol file extension.
+
+The zip file contains one top-level directory for each contained top-level structured Modelica package (“library”), named and structured according to
+section 13.2.2 of the Modelica Language Specification version 3.2r2. Each
+such top-level directory should contain a subdirectory named “.library”. 
+Each “.library” subdirectory must contain:
 
 -   An XML file “manifest.xml”, containing meta-data about the library.
 
@@ -36,6 +36,17 @@ directory should contain:
     or a Modelica tool. The names of each such directory should be the
     name of the vendor that introduces it.
 
+The mol file may also contain:
+
+- Readme.md file containing entry point for the documentation covering the
+  included content
+
+- Individual modelica source files at top level, typically with examples
+  refering to all the included libraries.
+  
+- Other content, such as additional documentation, scrips, FMUs and datafiles.
+  Note that a non-encrypted structured Modelica library without ".library" subdirectory may also be included in this form.
+  
 ### Manifest file
 
 > An example for the manifest file (“manifest.xml”) can be found at the
@@ -144,17 +155,16 @@ directory should contain:
                                 -   *uri* – direct-download URI to the
                                     target library
 
-## Installing libraries
+## Installing Library Container
 
-When installing a library archive, the tool must for each library it
-installs from the archive extract either only the “.library” folder, or
-the entire contents of the directory tree. When extracting the entire
-contents of the directory tree, The directory structure and file names
-of the content of the library directory must be the same as in the
-archive, except that the top-level directory may be placed wherever and
-named however the tool decides. It is recommended that the directory is
-placed in a directory on the MODELICAPATH and named “*PACKAGENAME*” or
-“*PACKAGENAME VERSION*”, as per the Modelica Language Specification.
+When installing content from a library container, it is recommended to
+unzip the full container into an arbitrary dedicated directory following
+the structure of the archive and add that directory to the MODELICAPATH.
+
+The tool may also choose to install individual included libraries containing 
+“.library” folder. In that case the tool may opt to only extract ".library"
+folder and perform initial processing based entirely on the manifest.xml
+and LVEs files.
 
 ## Reading open-source library
 
